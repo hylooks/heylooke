@@ -210,20 +210,28 @@ form.addEventListener("submit", async (e) => {
     // Tambahkan ke database
     database.push(item);
 
-    // Simpan database terbaru untuk tombol Download JSON
+    // Buat database terbaru
     window.hylooksJSON = {
         version: "1.3",
         updated: new Date().toISOString(),
         videos: database
     };
 
-    // Tampilkan JSON video yang baru dibuat
+    // Tampilkan JSON video baru di textarea
     output.value = JSON.stringify(item, null, 2);
 
-    // Refresh preview database
+    // Refresh Database Preview
     renderDatabase();
 
-    // Download thumbnail WEBP saja
+    /* ===== AUTO DOWNLOAD videos.json ===== */
+    const jsonBlob = new Blob(
+        [JSON.stringify(window.hylooksJSON, null, 2)],
+        { type: "application/json" }
+    );
+
+    downloadFile(jsonBlob, "videos.json");
+
+    /* ===== AUTO DOWNLOAD Thumbnail WEBP ===== */
     downloadFile(thumbWebp, thumbWebp.name);
 
     // Reset form (JSON tetap tampil)
@@ -235,6 +243,7 @@ form.addEventListener("submit", async (e) => {
     titleInput.focus();
 
     alert(`${ids.id} berhasil ditambahkan.`);
+
 });
 
 /* ================= DATABASE PREVIEW ================= */
