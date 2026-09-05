@@ -1,5 +1,5 @@
 /* =====================================================
-   HYLOOKS v1.1 FINAL PRODUCTION
+   HYLOOKS v1.3 FINAL PRODUCTION
    CMS Controller
    MASTER LOCKED
 ===================================================== */
@@ -40,20 +40,22 @@ loadDatabase();
 
 /* ================= THUMB PREVIEW ================= */
 
-thumbInput.addEventListener("change",()=>{
+thumbInput.addEventListener("change", () => {
 
     const file = thumbInput.files[0];
-    if(!file) return;
 
+    if (!file) return;
+
+    // Simpan file thumbnail untuk proses submit
     thumbnailFile = file;
 
     const reader = new FileReader();
 
-    reader.onload = e=>{
+    reader.onload = (e) => {
 
         thumbnailData = e.target.result;
 
-        preview.innerHTML = `<img src="${thumbnailData}">`;
+        preview.innerHTML = `<img src="${thumbnailData}" alt="Thumbnail Preview">`;
 
     };
 
@@ -72,9 +74,15 @@ function nextID(){
         };
     }
 
-    const lastID = database[database.length - 1].id;
-    const next = parseInt(lastID.replace("video",""),10) + 1;
-    const num = String(next).padStart(3,"0");
+    // Cari nomor ID terbesar agar tidak bentrok jika ada video yang dihapus
+    const lastNumber = Math.max(
+        ...database.map(video =>
+            parseInt(video.id.replace("video",""), 10)
+        )
+    );
+
+    const next = lastNumber + 1;
+    const num = String(next).padStart(3, "0");
 
     return {
         id: `video${num}`,
@@ -118,76 +126,93 @@ async function convertThumbnail(file,id){
 
 function downloadFile(file,name){
 
+    const url = URL.createObjectURL(file);
+
     const link = document.createElement("a");
 
-    link.href = URL.createObjectURL(file);
+    link.href = url;
     link.download = name;
-    link.click();
 
-    URL.revokeObjectURL(link.href);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    setTimeout(()=>{
+        URL.revokeObjectURL(url);
+    },100);
 
 }
 
 /* ================= SUBMIT ================= */
 
-form.addEventListener("submit",(e)=>{
+form.addEventListener("submit", async (e) => {
 
     e.preventDefault();
 
+    // Gunakan thumbnail yang sudah dipilih saat preview
+    if (!thumbnailFile) {
+        alert("Pilih thumbnail terlebih dahulu.");
+        return;
+    }
+
+    const file = thumbnailFile;
+
     const ids = nextID();
 
-    const encoded = encodeVidey(urlInput.value.trim(), ids.id);
+    const encoded = encodeVidey(
+        urlInput.value.trim(),
+        ids.id
+    );
+
+    // Convert thumbnail menjadi WEBP 1280x720
+    const thumbWebp = await convertThumbnail(file, ids.id);
 
     const item = {
-
         id: ids.id,
-
         title: titleInput.value.trim(),
-
         thumb: ids.thumb,
-
         views: viewsInput.value.trim(),
-
         duration: durationInput.value.trim(),
-
         video: encoded
-
     };
 
-    output.value = JSON.stringify(item,null,2);
-
+    // Tambahkan ke database
     database.push(item);
 
-// Preview JSON video baru
-output.value = JSON.stringify(item, null, 2);
+    // Preview JSON video baru
+    output.value = JSON.stringify(item, null, 2);
 
-renderDatabase();
+    // Refresh daftar video
+    renderDatabase();
 
-// Buat videos.json terbaru
-const updatedJSON = {
-    version: "1.3",
-    updated: new Date().toISOString(),
-    videos: database
-};
+    // Generate videos.json terbaru
+    const updatedJSON = {
+        version: "1.3",
+        updated: new Date().toISOString(),
+        videos: database
+    };
 
-// Download videos.json otomatis
-const jsonBlob = new Blob(
-    [JSON.stringify(updatedJSON, null, 2)],
-    { type: "application/json" }
-);
+    // Download videos.json otomatis
+    const jsonBlob = new Blob(
+        [JSON.stringify(updatedJSON, null, 2)],
+        { type: "application/json" }
+    );
 
-downloadFile(jsonBlob, "videos.json");
+    downloadFile(jsonBlob, "videos.json");
 
-// Download thumbnail otomatis
-downloadFile(thumbWebp, thumbWebp.name);
+    // Download thumbnail WEBP otomatis
+    downloadFile(thumbWebp, thumbWebp.name);
 
-// Baru reset form
-form.reset();
-preview.innerHTML = "";
-thumbnailData = "";
-thumbnailFile = null;
+    // Reset form
+    form.reset();
+    preview.innerHTML = "";
+    output.value = "";
+    thumbnailData = "";
+    thumbnailFile = null;
 
-alert(`${ids.id} berhasil ditambahkan.`);
+    alert(`${ids.id} berhasil ditambahkan.`);
+
+});
 
 /* ================= DATABASE PREVIEW ================= */
 
@@ -201,27 +226,16 @@ function renderDatabase(){
         card.className = "video-item";
 
         card.innerHTML = `
-
             <img src="${video.thumb}" alt="">
-
             <div class="video-info">
-
                 <h3>${video.title}</h3>
-
                 <p>${video.views} Views</p>
-
                 <p>${video.duration}</p>
-
                 <p>${video.id}</p>
-
             </div>
-
             <div class="video-actions">
-
                 <button class="delete-btn" data-index="${index}">🗑</button>
-
             </div>
-
         `;
 
         videoList.appendChild(card);
@@ -244,7 +258,7 @@ videoList.addEventListener("click",(e)=>{
 
 });
 
-/* ================= COPY JSON ================= */
+/* ================= DOWNLOAD JSON ================= */
 
 downloadBtn.addEventListener("click",()=>{
 
@@ -269,33 +283,17 @@ downloadBtn.addEventListener("click",()=>{
 
 });
 
-/* ================= DOWNLOAD DATABASE ================= */
+/* ================= COPY JSON ================= */
 
-downloadBtn.addEventListener("click",()=>{
+copyBtn.addEventListener("click", async ()=>{
 
-    const json = {
+    if(!output.value){
+        alert("Belum ada JSON.");
+        return;
+    }
 
-        version:"1.1",
+    await navigator.clipboard.writeText(output.value);
 
-        updated:new Date().toISOString(),
-
-        videos:database
-
-    };
-
-    const blob = new Blob(
-        [JSON.stringify(json,null,2)],
-        {type:"application/json"}
-    );
-
-    const link = document.createElement("a");
-
-    link.href = URL.createObjectURL(blob);
-
-    link.download = "videos.json";
-
-    link.click();
-
-    URL.revokeObjectURL(link.href);
+    alert("JSON berhasil disalin.");
 
 });
