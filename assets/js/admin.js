@@ -21,6 +21,7 @@ const videoList = document.getElementById("videoList");
 
 let database = [];
 let thumbnailData = "";
+let thumbnailFile = null;
 
 /* ================= LOAD DATABASE ================= */
 
@@ -44,6 +45,8 @@ thumbInput.addEventListener("change",()=>{
     const file = thumbInput.files[0];
     if(!file) return;
 
+    thumbnailFile = file;
+
     const reader = new FileReader();
 
     reader.onload = e=>{
@@ -62,12 +65,66 @@ thumbInput.addEventListener("change",()=>{
 
 function nextID(){
 
-    const number = String(database.length + 1).padStart(3,"0");
+    if(database.length === 0){
+        return {
+            id: "video001",
+            thumb: "assets/thumb/video001.webp"
+        };
+    }
+
+    const lastID = database[database.length - 1].id;
+    const next = parseInt(lastID.replace("video",""),10) + 1;
+    const num = String(next).padStart(3,"0");
 
     return {
-        id:`video${number}`,
-        thumb:`assets/thumb/video${number}.webp`
+        id: `video${num}`,
+        thumb: `assets/thumb/video${num}.webp`
     };
+
+} // <-- PENUTUP nextID() WAJIB ADA
+
+
+/* ================= AUTO CONVERT THUMBNAIL ================= */
+
+async function convertThumbnail(file,id){
+
+    const bitmap = await createImageBitmap(file);
+
+    const canvas = document.createElement("canvas");
+    canvas.width = 1280;
+    canvas.height = 720;
+
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(bitmap,0,0,1280,720);
+
+    return new Promise(resolve=>{
+
+        canvas.toBlob(blob=>{
+
+            resolve(new File(
+                [blob],
+                `${id}.webp`,
+                {type:"image/webp"}
+            ));
+
+        },"image/webp",0.90);
+
+    });
+
+}
+
+
+/* ================= DOWNLOAD FILE ================= */
+
+function downloadFile(file,name){
+
+    const link = document.createElement("a");
+
+    link.href = URL.createObjectURL(file);
+    link.download = name;
+    link.click();
+
+    URL.revokeObjectURL(link.href);
 
 }
 
@@ -168,19 +225,26 @@ videoList.addEventListener("click",(e)=>{
 
 /* ================= COPY JSON ================= */
 
-copyBtn.addEventListener("click",()=>{
+downloadBtn.addEventListener("click",()=>{
 
-    if(!output.value) return;
+    const json = {
 
-    navigator.clipboard.writeText(output.value);
+        version:"1.3",
 
-    copyBtn.textContent = "Copied!";
+        updated:new Date().toISOString(),
 
-    setTimeout(()=>{
+        videos:database
 
-        copyBtn.textContent = "Copy";
+    };
 
-    },1500);
+    const blob = new Blob(
+        [JSON.stringify(json,null,2)],
+        {type:"application/json"}
+    );
+
+    downloadFile(blob,"videos.json");
+
+    alert("videos.json berhasil diperbarui.");
 
 });
 
