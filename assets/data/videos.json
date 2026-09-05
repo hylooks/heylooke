@@ -1,28 +1,32 @@
 {
-  "id": "video012",
-  "title": "zsdfgdfsg",
-  "thumb": "assets/thumb/video012.webp",
-  "views": "187.8K",
-  "duration": "55:76",
-  "video": {
-    "provider": "videy",
-    "encrypted": "bEcsfgVLVHwHdiVWOxkjJSBXWFQoOCoXNlMif2cIQkA4LSA=",
-    "iv": "HYL012HPA7X9",
-    "ver": 1
+  "version": "1.3",
+  "updated": "2026-09-05T10:54:17.618Z",
+  "videos": [
+    {
+      "id": "video011",
+      "title": "kuihfvjhvf",
+      "thumb": "assets/thumb/video011.webp",
+      "views": "187.8K",
+      "duration": "15:76",
+      "video": {
+        "provider": "videy",
+        "encrypted": "DCY1fwBncXkLDlknfXk3Mh9IVSgwPhs/XDV3fgtCQDgtIA==",
+        "iv": "HYL011QXV8Q5",
+        "ver": 1
       }
     },
     {
-  "id": "video011",
-  "title": "kuihfvjhvf",
-  "thumb": "assets/thumb/video011.webp",
-  "views": "187.8K",
-  "duration": "15:76",
-  "video": {
-    "provider": "videy",
-    "encrypted": "DCY1fwBncXkLDlknfXk3Mh9IVSgwPhs/XDV3fgtCQDgtIA==",
-    "iv": "HYL011QXV8Q5",
-    "ver": 1
-  }
-}
+      "id": "video012",
+      "title": "zsdfgdfsg",
+      "thumb": "assets/thumb/video012.webp",
+      "views": "187.8K",
+      "duration": "55:76",
+      "video": {
+        "provider": "videy",
+        "encrypted": "bEcsfgVLVHwHdiVWOxkjJSBXWFQoOCoXNlMif2cIQkA4LSA=",
+        "iv": "HYL012HPA7X9",
+        "ver": 1
+      }
+    }
   ]
 }
