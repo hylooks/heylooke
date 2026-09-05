@@ -185,19 +185,15 @@ form.addEventListener("submit", async (e) => {
         return;
     }
 
-    const file = thumbnailFile;
     const ids = nextID();
 
     // Encode URL video
-    const encoded = encodeVidey(
-        urlInput.value.trim(),
-        ids.id
-    );
+    const encoded = encodeVidey(urlInput.value.trim(), ids.id);
 
-    // Convert thumbnail menjadi WEBP
-    const thumbWebp = await convertThumbnail(file, ids.id);
+    // Convert thumbnail (TIDAK download)
+    await convertThumbnail(thumbnailFile, ids.id);
 
-    // Data video baru
+    // Buat data video
     const item = {
         id: ids.id,
         title: titleInput.value.trim(),
@@ -210,29 +206,19 @@ form.addEventListener("submit", async (e) => {
     // Tambahkan ke database
     database.push(item);
 
-    // Buat database terbaru
+    // Simpan database terbaru
     window.hylooksJSON = {
         version: "1.3",
         updated: new Date().toISOString(),
-        videos: database
+        videos: [...database]
     };
 
-    // Tampilkan JSON video baru di textarea
-    output.value = JSON.stringify(item, null, 2);
+    // ===== GENERATE JSON (WAJIB MUNCUL DI TEXTAREA) =====
+    const generatedJSON = JSON.stringify(item, null, 2);
+    output.value = generatedJSON;
 
-    // Refresh Database Preview
+    // Refresh preview database
     renderDatabase();
-
-    /* ===== AUTO DOWNLOAD videos.json ===== */
-    const jsonBlob = new Blob(
-        [JSON.stringify(window.hylooksJSON, null, 2)],
-        { type: "application/json" }
-    );
-
-    downloadFile(jsonBlob, "videos.json");
-
-    /* ===== AUTO DOWNLOAD Thumbnail WEBP ===== */
-    downloadFile(thumbWebp, thumbWebp.name);
 
     // Reset form (JSON tetap tampil)
     form.reset();
@@ -243,7 +229,6 @@ form.addEventListener("submit", async (e) => {
     titleInput.focus();
 
     alert(`${ids.id} berhasil ditambahkan.`);
-
 });
 
 /* ================= DATABASE PREVIEW ================= */
