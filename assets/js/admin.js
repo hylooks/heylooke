@@ -179,7 +179,6 @@ form.addEventListener("submit", async (e) => {
 
     e.preventDefault();
 
-    // Pastikan thumbnail dipilih
     if (!thumbnailFile) {
         alert("Pilih thumbnail terlebih dahulu.");
         return;
@@ -187,13 +186,14 @@ form.addEventListener("submit", async (e) => {
 
     const ids = nextID();
 
-    // Encode URL video
-    const encoded = encodeVidey(urlInput.value.trim(), ids.id);
+    const encoded = encodeVidey(
+        urlInput.value.trim(),
+        ids.id
+    );
 
-    // Convert thumbnail (TIDAK download)
-    await convertThumbnail(thumbnailFile, ids.id);
+    // Convert thumbnail menjadi WEBP
+    const thumbWebp = await convertThumbnail(thumbnailFile, ids.id);
 
-    // Buat data video
     const item = {
         id: ids.id,
         title: titleInput.value.trim(),
@@ -203,24 +203,27 @@ form.addEventListener("submit", async (e) => {
         video: encoded
     };
 
-    // Tambahkan ke database
+    // Tambah ke database
     database.push(item);
 
-    // Simpan database terbaru
+    // Simpan database terbaru (untuk tombol Download videos.json)
     window.hylooksJSON = {
         version: "1.3",
         updated: new Date().toISOString(),
-        videos: [...database]
+        videos: database
     };
 
-    // ===== GENERATE JSON (WAJIB MUNCUL DI TEXTAREA) =====
-    const generatedJSON = JSON.stringify(item, null, 2);
-    output.value = generatedJSON;
+    // Tampilkan JSON hasil generate
+    output.value = JSON.stringify(item, null, 2);
 
-    // Refresh preview database
+    // Refresh preview
     renderDatabase();
 
-    // Reset form (JSON tetap tampil)
+    // WAJIB download thumbnail agar file videoXXX.webp ada
+    downloadFile(thumbWebp, thumbWebp.name);
+
+    // TIDAK download videos.json di sini
+
     form.reset();
     preview.innerHTML = "";
     thumbnailData = "";
@@ -228,7 +231,7 @@ form.addEventListener("submit", async (e) => {
 
     titleInput.focus();
 
-    alert(`${ids.id} berhasil ditambahkan.`);
+    alert(`${ids.id} berhasil di-generate.\nThumbnail ${thumbWebp.name} sudah di-download.`);
 });
 
 /* ================= DATABASE PREVIEW ================= */
