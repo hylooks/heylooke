@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>HyLooks</title>
+
+  <link rel="icon" href="assets/icon/favicon.svg" type="image/svg+xml">
+
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/watch.css">
+
+</head>
+<body>
+
+  <!-- HEADER (SAMA HOMEPAGE) -->
+  <header class="topbar">
+
+    <a href="index.html" class="logo">HyLooks</a>
+
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Search video..."
+        disabled>
+    </div>
+
+  </header>
+
+
+  <!-- WATCH LAYOUT -->
+  <main class="watch-page">
+
+    <!-- LEFT -->
+    <section class="player-section">
+
+      <!-- PLAYER -->
+      <div class="player-box">
+
+        <video
+          id="videoPlayer"
+          playsinline
+          controls
+          preload="metadata"
+          poster="">
+        </video>
+
+        <div id="playerLoading" class="player-loading">
+          <div class="spinner"></div>
+        </div>
+
+      </div>
+
+
+      <!-- TITLE -->
+      <div class="video-info">
+
+        <h1 id="videoTitle"></h1>
+
+        <p id="videoViews"></p>
+
+      </div>
+
+
+      <!-- TOOLBAR -->
+      <div class="video-toolbar">
+
+        <button id="likeBtn" class="tool-btn">
+          ❤️
+          <span id="likeCount">0</span>
+        </button>
+
+        <button id="shareBtn" class="tool-btn">
+          Share
+        </button>
+
+        <button id="copyBtn" class="tool-btn">
+          Copy Link
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- RIGHT SIDEBAR -->
+    <aside class="sidebar-section">
+
+      <div id="sidebarVideos" class="sidebar-list"></div>
+
+    </aside>
+
+  </main>
+
+
+  <!-- TEMPLATE SIDEBAR -->
+  <template id="sidebarTemplate">
+
+    <a class="side-card">
+
+      <div class="side-thumb-box">
+
+        <img class="side-thumb">
+
+        <span class="side-duration"></span>
+
+      </div>
+
+      <div class="side-meta">
+
+        <div class="side-title"></div>
+
+        <div class="side-views"></div>
+
+      </div>
+
+    </a>
+
+  </template>
+
+
+  <script src="assets/js/encoder.js"></script>
+  <script src="assets/js/loader.min.js"></script>
+  <script src="assets/js/watch.js"></script>
+
+</body>
+</html>

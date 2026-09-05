@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HyLooks</title>
+
+  <link rel="icon" href="assets/icon/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="topbar">
+
+    <a href="index.html" class="logo">HyLooks</a>
+
+    <div class="search-box">
+      <input
+        id="searchInput"
+        type="text"
+        placeholder="Search video..."
+        autocomplete="off">
+    </div>
+
+  </header>
+
+
+  <!-- VIDEO GRID -->
+  <main class="container">
+
+    <section id="videoGrid" class="video-grid"></section>
+
+    <div id="loadingGrid" class="loading-grid">
+
+      <div class="loading-card"></div>
+      <div class="loading-card"></div>
+      <div class="loading-card"></div>
+      <div class="loading-card"></div>
+      <div class="loading-card"></div>
+      <div class="loading-card"></div>
+      <div class="loading-card"></div>
+      <div class="loading-card"></div>
+
+    </div>
+
+  </main>
+
+
+  <!-- VIDEO TEMPLATE -->
+  <template id="videoTemplate">
+
+    <article class="video-card">
+
+      <a class="video-link">
+
+        <div class="thumb-box">
+
+          <img class="thumb" loading="lazy">
+
+          <span class="duration"></span>
+
+        </div>
+
+        <div class="meta">
+
+          <h3 class="title"></h3>
+
+          <p class="views"></p>
+
+        </div>
+
+      </a>
+
+    </article>
+
+  </template>
+
+
+  <script src="assets/js/search.js"></script>
+  <script src="assets/js/app.js"></script>
+
+</body>
+</html>

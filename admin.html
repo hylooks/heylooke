@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>HyLooks CMS</title>
+
+<link rel="icon" href="assets/icon/favicon.ico">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/admin.css">
+
+</head>
+<body>
+
+<header class="topbar">
+
+    <a href="index.html" class="logo">HyLooks</a>
+
+    <div class="cms-title">CMS</div>
+
+</header>
+
+
+<main class="admin-page">
+
+    <section class="admin-card">
+
+        <h2>Add New Video</h2>
+
+        <form id="videoForm">
+
+            <label>Video Title</label>
+            <input id="title" type="text" placeholder="THE FLASH (2023)" required>
+
+            <label>Videy URL</label>
+            <input id="videyUrl" type="text" placeholder="https://cdn.videy.co/xxxxxxxx.mp4" required>
+
+            <label>Views</label>
+            <input id="views" type="text" placeholder="187.8K" required>
+
+            <label>Duration</label>
+            <input id="duration" type="text" placeholder="1:49:33" required>
+
+            <label>Thumbnail (WEBP/JPG/PNG)</label>
+            <input id="thumbnail" type="file" accept="image/*" required>
+
+            <div id="thumbPreview" class="thumb-preview"></div>
+
+            <button type="submit" class="save-btn">
+                Generate Video JSON
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <section class="admin-card">
+
+        <div class="output-header">
+            <h2>Generated JSON</h2>
+            <button id="copyJson">Copy</button>
+        </div>
+
+        <textarea id="jsonOutput" readonly></textarea>
+
+    </section>
+
+
+    <section class="admin-card">
+
+        <div class="output-header">
+            <h2>Database Preview</h2>
+            <button id="downloadJson">Download videos.json</button>
+        </div>
+
+        <div id="videoList" class="video-list"></div>
+
+    </section>
+
+</main>
+
+
+<script src="assets/js/encoder.js"></script>
+<script src="assets/js/admin.js"></script>
+
+</body>
+</html>
