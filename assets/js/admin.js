@@ -27,10 +27,34 @@ let thumbnailFile = null;
 
 async function loadDatabase(){
 
-    const res = await fetch("assets/data/videos.json",{cache:"no-store"});
-    const json = await res.json();
+    try{
 
-    database = json.videos || [];
+        const res = await fetch("assets/data/videos.json", {
+            cache: "no-store"
+        });
+
+        const json = await res.json();
+
+        database = json.videos || [];
+
+        window.hylooksJSON = {
+            version: json.version || "1.3",
+            updated: json.updated || new Date().toISOString(),
+            videos: database
+        };
+
+    }catch(err){
+
+        database = [];
+
+        window.hylooksJSON = {
+            version: "1.3",
+            updated: new Date().toISOString(),
+            videos: []
+        };
+
+        console.warn("videos.json belum ditemukan.");
+    }
 
     renderDatabase();
 
@@ -109,6 +133,11 @@ async function convertThumbnail(file,id){
 
         canvas.toBlob(blob=>{
 
+            if(!blob){
+                alert("Gagal membuat thumbnail WEBP.");
+                return;
+            }
+
             resolve(new File(
                 [blob],
                 `${id}.webp`,
@@ -132,6 +161,7 @@ function downloadFile(file,name){
 
     link.href = url;
     link.download = name;
+    link.style.display = "none";
 
     document.body.appendChild(link);
     link.click();
@@ -149,24 +179,25 @@ form.addEventListener("submit", async (e) => {
 
     e.preventDefault();
 
-    // Gunakan thumbnail yang sudah dipilih saat preview
+    // Pastikan thumbnail dipilih
     if (!thumbnailFile) {
         alert("Pilih thumbnail terlebih dahulu.");
         return;
     }
 
     const file = thumbnailFile;
-
     const ids = nextID();
 
+    // Encode URL video
     const encoded = encodeVidey(
         urlInput.value.trim(),
         ids.id
     );
 
-    // Convert thumbnail menjadi WEBP 1280x720
+    // Convert thumbnail menjadi WEBP
     const thumbWebp = await convertThumbnail(file, ids.id);
 
+    // Data video baru
     const item = {
         id: ids.id,
         title: titleInput.value.trim(),
@@ -179,39 +210,31 @@ form.addEventListener("submit", async (e) => {
     // Tambahkan ke database
     database.push(item);
 
-    // Preview JSON video baru
-    output.value = JSON.stringify(item, null, 2);
-
-    // Refresh daftar video
-    renderDatabase();
-
-       // Generate videos.json terbaru (disimpan untuk tombol Download JSON)
-    const updatedJSON = {
+    // Simpan database terbaru untuk tombol Download JSON
+    window.hylooksJSON = {
         version: "1.3",
         updated: new Date().toISOString(),
         videos: database
     };
 
-    // Tampilkan JSON video baru di textarea
+    // Tampilkan JSON video yang baru dibuat
     output.value = JSON.stringify(item, null, 2);
 
-    // Refresh daftar video
+    // Refresh preview database
     renderDatabase();
 
-        // HANYA download thumbnail WEBP otomatis
+    // Download thumbnail WEBP saja
     downloadFile(thumbWebp, thumbWebp.name);
 
-    // Reset form (JSON tetap tampil di textarea)
+    // Reset form (JSON tetap tampil)
     form.reset();
     preview.innerHTML = "";
     thumbnailData = "";
     thumbnailFile = null;
 
-    // Fokus kembali ke judul untuk input video berikutnya
     titleInput.focus();
 
-    alert(`${ids.id} berhasil ditambahkan.\nKlik "Download videos.json" untuk menyimpan database.`);
-
+    alert(`${ids.id} berhasil ditambahkan.`);
 });
 
 /* ================= DATABASE PREVIEW ================= */
@@ -246,13 +269,20 @@ function renderDatabase(){
 
 /* ================= DELETE ================= */
 
-videoList.addEventListener("click",(e)=>{
+videoList.addEventListener("click", (e) => {
 
-    if(!e.target.classList.contains("delete-btn")) return;
+    if (!e.target.classList.contains("delete-btn")) return;
 
     const index = Number(e.target.dataset.index);
 
-    database.splice(index,1);
+    database.splice(index, 1);
+
+    // Update database JSON setelah delete
+    window.hylooksJSON = {
+        version: "1.3",
+        updated: new Date().toISOString(),
+        videos: database
+    };
 
     renderDatabase();
 
@@ -260,40 +290,41 @@ videoList.addEventListener("click",(e)=>{
 
 /* ================= DOWNLOAD JSON ================= */
 
-downloadBtn.addEventListener("click",()=>{
+downloadBtn.addEventListener("click", () => {
 
-    const json = {
-
-        version:"1.3",
-
-        updated:new Date().toISOString(),
-
-        videos:database
-
+    const json = window.hylooksJSON || {
+        version: "1.3",
+        updated: new Date().toISOString(),
+        videos: database
     };
 
     const blob = new Blob(
-        [JSON.stringify(json,null,2)],
-        {type:"application/json"}
+        [JSON.stringify(json, null, 2)],
+        { type: "application/json" }
     );
 
-    downloadFile(blob,"videos.json");
+    downloadFile(blob, "videos.json");
 
-    alert("videos.json berhasil diperbarui.");
+    alert("videos.json berhasil di-download.");
 
 });
 
 /* ================= COPY JSON ================= */
 
-copyBtn.addEventListener("click", async ()=>{
+copyBtn.addEventListener("click", async () => {
 
-    if(!output.value){
+    if (!output.value) {
         alert("Belum ada JSON.");
         return;
     }
 
-    await navigator.clipboard.writeText(output.value);
-
-    alert("JSON berhasil disalin.");
+    try {
+        await navigator.clipboard.writeText(output.value);
+        alert("JSON berhasil disalin.");
+    } catch (err) {
+        output.select();
+        document.execCommand("copy");
+        alert("JSON berhasil disalin.");
+    }
 
 });
