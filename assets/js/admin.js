@@ -158,15 +158,36 @@ form.addEventListener("submit",(e)=>{
 
     database.push(item);
 
-    renderDatabase();
+// Preview JSON video baru
+output.value = JSON.stringify(item, null, 2);
 
-    form.reset();
+renderDatabase();
 
-    preview.innerHTML = "";
+// Buat videos.json terbaru
+const updatedJSON = {
+    version: "1.3",
+    updated: new Date().toISOString(),
+    videos: database
+};
 
-    thumbnailData = "";
+// Download videos.json otomatis
+const jsonBlob = new Blob(
+    [JSON.stringify(updatedJSON, null, 2)],
+    { type: "application/json" }
+);
 
-});
+downloadFile(jsonBlob, "videos.json");
+
+// Download thumbnail otomatis
+downloadFile(thumbWebp, thumbWebp.name);
+
+// Baru reset form
+form.reset();
+preview.innerHTML = "";
+thumbnailData = "";
+thumbnailFile = null;
+
+alert(`${ids.id} berhasil ditambahkan.`);
 
 /* ================= DATABASE PREVIEW ================= */
 
