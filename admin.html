@@ -22,7 +22,6 @@
 
 </header>
 
-
 <main class="admin-page">
 
     <section class="admin-card">
@@ -48,6 +47,7 @@
 
             <div id="thumbPreview" class="thumb-preview"></div>
 
+            <!-- TOMBOL GENERATE -->
             <button type="submit" class="save-btn">
                 Generate Video JSON
             </button>
@@ -56,24 +56,30 @@
 
     </section>
 
-
     <section class="admin-card">
 
         <div class="output-header">
             <h2>Generated JSON</h2>
-            <button id="copyJson">Copy</button>
+
+            <!-- FIX -->
+            <button id="copyJson" type="button">Copy</button>
+
         </div>
 
         <textarea id="jsonOutput" readonly></textarea>
 
     </section>
 
-
     <section class="admin-card">
 
         <div class="output-header">
             <h2>Database Preview</h2>
-            <button id="downloadJson">Download videos.json</button>
+
+            <!-- FIX -->
+            <button id="downloadJson" type="button">
+                Download videos.json
+            </button>
+
         </div>
 
         <div id="videoList" class="video-list"></div>
@@ -81,7 +87,6 @@
     </section>
 
 </main>
-
 
 <script src="assets/js/encoder.js"></script>
 <script src="assets/js/admin.js"></script>
