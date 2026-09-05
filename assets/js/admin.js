@@ -198,16 +198,20 @@ form.addEventListener("submit", async (e) => {
     // Refresh daftar video
     renderDatabase();
 
-    // HANYA download thumbnail WEBP otomatis
+        // HANYA download thumbnail WEBP otomatis
     downloadFile(thumbWebp, thumbWebp.name);
 
-    // Reset form
+    // Reset form (JSON tetap tampil di textarea)
     form.reset();
     preview.innerHTML = "";
     thumbnailData = "";
     thumbnailFile = null;
 
+    // Fokus kembali ke judul untuk input video berikutnya
+    titleInput.focus();
+
     alert(`${ids.id} berhasil ditambahkan.\nKlik "Download videos.json" untuk menyimpan database.`);
+
 });
 
 /* ================= DATABASE PREVIEW ================= */
