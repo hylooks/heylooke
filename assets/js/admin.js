@@ -149,14 +149,12 @@ form.addEventListener("submit", async (e) => {
 
     e.preventDefault();
 
-    // Gunakan thumbnail yang sudah dipilih saat preview
     if (!thumbnailFile) {
         alert("Pilih thumbnail terlebih dahulu.");
         return;
     }
 
     const file = thumbnailFile;
-
     const ids = nextID();
 
     const encoded = encodeVidey(
@@ -164,7 +162,6 @@ form.addEventListener("submit", async (e) => {
         ids.id
     );
 
-    // Convert thumbnail menjadi WEBP 1280x720
     const thumbWebp = await convertThumbnail(file, ids.id);
 
     const item = {
@@ -176,41 +173,25 @@ form.addEventListener("submit", async (e) => {
         video: encoded
     };
 
-    // Tambahkan ke database
+    // Tambah ke database
     database.push(item);
 
-    // Preview JSON video baru
+    // Tampilkan JSON video baru di textbox
     output.value = JSON.stringify(item, null, 2);
 
     // Refresh daftar video
     renderDatabase();
 
-    // Generate videos.json terbaru
-    const updatedJSON = {
-        version: "1.3",
-        updated: new Date().toISOString(),
-        videos: database
-    };
-
-    // Download videos.json otomatis
-    const jsonBlob = new Blob(
-        [JSON.stringify(updatedJSON, null, 2)],
-        { type: "application/json" }
-    );
-
-    downloadFile(jsonBlob, "videos.json");
-
-    // Download thumbnail WEBP otomatis
+    // Simpan thumbnail WEBP (boleh otomatis download)
     downloadFile(thumbWebp, thumbWebp.name);
 
     // Reset form
     form.reset();
     preview.innerHTML = "";
-    output.value = "";
     thumbnailData = "";
     thumbnailFile = null;
 
-    alert(`${ids.id} berhasil ditambahkan.`);
+    alert(`${ids.id} berhasil dibuat. Klik "Download JSON" untuk menyimpan videos.json.`);
 
 });
 
