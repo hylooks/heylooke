@@ -14,19 +14,19 @@
         "iv": "HYL013IFONBY",
         "ver": 1
       }
-    }
+    },
     {
-  "id": "video014",
-  "title": "Curls on point, mood even better",
-  "thumb": "assets/thumb/video014.webp",
-  "views": "32K",
-  "duration": "6:48",
-  "video": {
-    "provider": "videy",
-    "encrypted": "YDU9HQVARAhrCRltYWo/UBpIVSgwPmBXMCZ/HA5CQDgtIA==",
-    "iv": "HYL0143PET9N",
-    "ver": 1
-  }
-}
+      "id": "video014",
+      "title": "Curls on point, mood even better",
+      "thumb": "assets/thumb/video014.webp",
+      "views": "32K",
+      "duration": "6:48",
+      "video": {
+        "provider": "videy",
+        "encrypted": "YDU9HQVARAhrCRltYWo/UBpIVSgwPmBXMCZ/HA5CQDgtIA==",
+        "iv": "HYL0143PET9N",
+        "ver": 1
+      }
+    }
   ]
 }
