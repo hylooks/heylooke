@@ -1,20 +1,7 @@
 {
   "version": "1.3",
-  "updated": "2026-10-15T19:08:39.888Z",
+  "updated": "2026-10-15T19:25:08.009Z",
   "videos": [
-    {
-      "id": "video013",
-      "title": "NREVS",
-      "thumb": "assets/thumb/video013.webp",
-      "views": "187.8K",
-      "duration": "15:76",
-      "video": {
-        "provider": "videy",
-        "encrypted": "eCkldycrNSkbQVRYD3YlNiFgLTMhVlhUKDgqdywqLGlmCUJAOC0g",
-        "iv": "HYL013IFONBY",
-        "ver": 1
-      }
-    },
     {
       "id": "video014",
       "title": "Curls on point, mood even better",
@@ -25,6 +12,58 @@
         "provider": "videy",
         "encrypted": "YDU9HQVARAhrCRltYWo/UBpIVSgwPmBXMCZ/HA5CQDgtIA==",
         "iv": "HYL0143PET9N",
+        "ver": 1
+      }
+    },
+    {
+      "id": "video015",
+      "title": "Lowkey feeling myself",
+      "thumb": "assets/thumb/video015.webp",
+      "views": "15",
+      "duration": "7:40",
+      "video": {
+        "provider": "videy",
+        "encrypted": "ZEUlbwRfegIsGAwzCBonIhtIVSgwPm0lNFZnbg9CQDgtIA==",
+        "iv": "HYL015AH5PKC",
+        "ver": 1
+      }
+    },
+    {
+      "id": "video016",
+      "title": "Lowkey, just feeling myself.",
+      "thumb": "assets/thumb/video016.webp",
+      "views": "29K",
+      "duration": "9:40",
+      "video": {
+        "provider": "videy",
+        "encrypted": "Y0Y/aQd6CSQLeVF8Hhk9JBhIVSgwPhgjM1V9aAxCQDgtIA==",
+        "iv": "HYL016GR6WM6",
+        "ver": 1
+      }
+    },
+    {
+      "id": "video017",
+      "title": "A little glow goes a long way",
+      "thumb": "assets/thumb/video017.webp",
+      "views": "12K",
+      "duration": "1:44",
+      "video": {
+        "provider": "videy",
+        "encrypted": "BEY6ZgZ/YC0rDRBEeRk4KxlIVSgwPntYVFV4Zw1CQDgtIA==",
+        "iv": "HYL017HW606U",
+        "ver": 1
+      }
+    },
+    {
+      "id": "video018",
+      "title": "Outside hits different",
+      "thumb": "assets/thumb/video018.webp",
+      "views": "9K",
+      "duration": "2:58",
+      "video": {
+        "provider": "videy",
+        "encrypted": "eEA5aQlpZiEWAxAfGx87JBZIVSgwPmQiKFN7aAJCQDgtIA==",
+        "iv": "HYL018GT0LLJ",
         "ver": 1
       }
     }
