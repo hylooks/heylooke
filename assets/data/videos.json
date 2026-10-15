@@ -1,6 +1,6 @@
 {
   "version": "1.3",
-  "updated": "2026-10-15T19:38:34.711Z",
+  "updated": "2026-10-15T19:58:43.582Z",
   "videos": [
     {
       "id": "video014",
@@ -129,6 +129,71 @@
         "provider": "videy",
         "encrypted": "BDUibAJABy8ULH52dGogIR1LVSgwPmQrVCZgbQlBQDgtIA==",
         "iv": "HYL023BOE0EJ",
+        "ver": 1
+      }
+    },
+    {
+      "id": "video024",
+      "title": "A little glam, a lot of class",
+      "thumb": "assets/thumb/video024.webp",
+      "views": "31K",
+      "duration": "2:37",
+      "video": {
+        "provider": "videy",
+        "encrypted": "dSYjfgUBSigNOBcoKnkhMxpLVSgwPm0oJTVhfw5BQDgtIA==",
+        "iv": "HYL024PNVAFC",
+        "ver": 1
+      }
+    },
+    {
+      "id": "video025",
+      "title": "Pretty chill, pretty cute",
+      "thumb": "assets/thumb/video025.webp",
+      "views": "16K",
+      "duration": "4:59",
+      "video": {
+        "provider": "videy",
+        "encrypted": "BjY+dwR0fQ8OcAUnSmk8OhtLVSgwPm8jViV8dg9BQDgtIA==",
+        "iv": "HYL025YSF2MA",
+        "ver": 1
+      }
+    },
+    {
+      "id": "video026",
+      "title": "Too glam to go unnoticed",
+      "thumb": "assets/thumb/video026.webp",
+      "views": "55K",
+      "duration": "6:05",
+      "video": {
+        "provider": "videy",
+        "encrypted": "fT4+GwdDWwc7IRNnfWE8VhhLVSgwPnxfLS18GgxBQDgtIA==",
+        "iv": "HYL0265SNI1R",
+        "ver": 1
+      }
+    },
+    {
+      "id": "video027",
+      "title": "Serving looks, no explanation needed",
+      "thumb": "assets/thumb/video027.webp",
+      "views": "47K",
+      "duration": "5:00",
+      "video": {
+        "provider": "videy",
+        "encrypted": "bTRbegYDdiMpIw4EI2tZNxlLVSgwPmw+PScZew1BQDgtIA==",
+        "iv": "HYL027T6DYPB",
+        "ver": 1
+      }
+    },
+    {
+      "id": "video028",
+      "title": "Pretty face, peaceful mind",
+      "thumb": "assets/thumb/video028.webp",
+      "views": "49K",
+      "duration": "2:20",
+      "video": {
+        "provider": "videy",
+        "encrypted": "YEA6ZglfeCYgG2QVNR84KxZLVSgwPh02MFN4ZwJBQDgtIA==",
+        "iv": "HYL028HW0TX3",
         "ver": 1
       }
     }
